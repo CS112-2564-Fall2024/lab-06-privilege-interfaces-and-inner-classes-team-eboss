@@ -82,4 +82,9 @@ public class Person
 
 	// INTERFACE METHODS
 	/***** TODO: (Part 1) override compareTo method to implement Comparable interface*****/
+
+	public int comparePrivilege(Person other) {
+
+		return Integer.compare(this.privilege, other.privilege);
+	}
 }
