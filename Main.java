@@ -76,7 +76,7 @@ public class Main
 					/***** TODO: (Part 1) implement a comparison case using the comparable method on the Person class to compare self to p1-p4*****/
 
 					for (int i = 0; i < people.length; i++) {
-						for (int j = 0; i < people.length -1; j++) {
+						for (int j = 0; j < people.length -1; j++) {
 							if (people[j].compareTo(people[j + 1])> 0) {
 								Person temp = people[j];
 								people[j] = people[j + 1];
@@ -90,7 +90,7 @@ public class Main
 					}
 
 
-					int comparisonResult = self.comparePrivilege(p1);
+					int comparisonResult = self.compareTo(p1);
 					if (comparisonResult < 0) {
 							System.out.println(self + " is less privileged than " + p1);
 						} else if(comparisonResult > 0) {
