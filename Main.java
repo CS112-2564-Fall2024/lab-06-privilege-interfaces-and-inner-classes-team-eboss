@@ -89,7 +89,7 @@ public class Main
 						System.out.println(people[i]);
 					}
 
-					
+
 					int comparisonResult = self.compareTo(p1);
 					if (comparisonResult < 0) {
 							System.out.println(self + " is less privileged than " + p1);
