@@ -1,30 +1,60 @@
-public class Person implements Comparable<Person>
+public class Person implements Comparable
 {
 	/***** TODO: (Part 2) create helper inner class for Identity*****/
+	private class Identity {
+		private String pronouns, background;
+
+		public Identity(String pronouns, String background) {
+			this.pronouns = pronouns;
+			this.background = background;
+		}
+
+		public Identity() {
+			this(Person.DEFAULT_PRONOUNS, Person.DEFAULT_BACKGROUND);
+		}
+
+		@Override
+		public String toString() {
+			return "my personal prounoins are " + this.pronouns + " and" + this.background;
+		}
+
+		@Override
+		public boolean equals(Object other) {
+			if(other == null || (this.getClass() != other.getClass())) {
+				return false;
+			}
+
+			Identity otherIdentity = (Identity) other;
+			return this.pronouns.equals(otherIdentity.pronouns) && this.background.equals(otherIdentity.background);
+		}
+	}
+
 
 	// CONSTANT VARIABLES
 	public static final String DEFAULT_NAME = "Jamie Doe";
-	public static final String DEFAULT_STORY =  "Unknown";
+	public static final String DEFAULT_PRONOUNS = "he/him";
+	public static final String DEFAULT_BACKGROUND =  "young college student";
 	public static final int DEFAULT_PRIVILEGE = 100;
 
 	// INSTANCE VARIABLES
-	private String name, story;
+	private String name;
+	private Identity story = new Identity();
 	private int privilege;
 
 	// CONSTRUCTORS	
-	public Person(String name, String story, int privilege) {
-		this.setAll(name, story, privilege);
+	public Person(String name, String pronouns, String background, int privilege) {
+		this.setAll(name, pronouns, background, privilege);
 	}
 		
 	public Person() {
-		this(DEFAULT_NAME, DEFAULT_STORY, DEFAULT_PRIVILEGE);
+		this(Person.DEFAULT_NAME, Person.DEFAULT_PRONOUNS, Person.DEFAULT_BACKGROUND, Person.DEFAULT_PRIVILEGE);
 	}
 	
 	public Person(Person original) {
 		if(original == null) {
 			throw new IllegalArgumentException("Cannot copy null obect in Person copy constructor");
 		} else {
-			this.setAll(original.name, original.story, original.privilege);
+			this.setAll(original.name, original.story.pronouns, original.story.background, original.privilege);
 		}
 	}
 
@@ -33,18 +63,23 @@ public class Person implements Comparable<Person>
 		this.name = name;
 	}
 
-	public void setStory(String story) {
-		this.story = story;
+	public void setPronouns(String pronouns) {
+		this.story.pronouns = pronouns;
+	}
+
+	public void setBackground(String background) {
+		this.story.background = background;
 	}
 
 	public void setPrivilege(int privilege) {
 		this.privilege = privilege;
 	}
 
-	public void setAll(String name, String story, int privilege) {
+	public void setAll(String name, String pronouns, String background, int privilege) {
 		this.setPrivilege(privilege);
 		this.setName(name);
-		this.setStory(story);
+		this.setPronouns(pronouns);
+		this.setBackground(background);
 	}
 
 	// ACCESSORS / GETTERS
@@ -52,8 +87,12 @@ public class Person implements Comparable<Person>
 		return this.name;
 	}
 		
-	public String getStory() {
-		return this.story;
+	public String getBackground() {
+		return this.story.background;
+	}
+
+	public String getPronouns() {
+		return this.story.pronouns;
 	}
 
 	public int getPrivilege() {
@@ -64,7 +103,7 @@ public class Person implements Comparable<Person>
 	@Override
 	public String toString()
 	{
-		return "My name is "+ this.name + " and "+ this.story + "\n"
+		return "My name is "+ this.name + ", "+ this.story + "\n"
 				+ "According to this calculator I ended up with "+ this.privilege + " estimated privilege points";
 	}
 	
@@ -83,16 +122,14 @@ public class Person implements Comparable<Person>
 	// INTERFACE METHODS
 	/***** TODO: (Part 1) override compareTo method to implement Comparable interface*****/
 
-	public int compareTo(Person other) {
-		
-		if (this.privilege < other.privilege) {
-			return -1;
-		} 
-		else if (this.privilege > other.privilege) {
-			return 1;
-		} 
-		else {
-			return 0;
+	@Override
+	public int compareTo(Object other) {
+		if (other == null || (!(other instanceof Person))) {
+			throw new IllegalArgumentException("null given to compareTo method in Person, or not a Person type");
 		}
+
+		Person otherPerson = (Person) other;
+		return this.privilege - otherPerson.privilege;
 	}
+
 }
